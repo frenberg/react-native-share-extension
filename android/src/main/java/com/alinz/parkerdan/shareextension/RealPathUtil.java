@@ -143,7 +143,7 @@ public class RealPathUtil {
         if (isGoogleOldPhotosUri(uri)) {
             // return http path, then download file.
             return uri.getLastPathSegment();
-        } else if (isGoogleNewPhotosUri(uri) || isMMSFile(uri)) {
+        } else if (isGoogleNewPhotosUri(uri) || isMMSFile(uri) || isMailFile(uri)) {
             // copy from uri. context.getContentResolver().openInputStream(uri);
             return copyFile(context, uri);
         }
@@ -168,16 +168,25 @@ public class RealPathUtil {
     return "com.android.mms.file".equals(uri.getAuthority());
 }
 
+ public static boolean isMailFile(Uri uri) {
+    return "com.google.android.gm.sapi".equals(uri.getAuthority());
+}
  private static String copyFile(Context context, Uri uri) {
 
     String filePath;
     InputStream inputStream = null;
     BufferedOutputStream outStream = null;
+    String mimeType = context.getContentResolver().getType(uri);
+
     try {
         inputStream = context.getContentResolver().openInputStream(uri);
 
         File extDir = context.getExternalFilesDir(null);
-        filePath = extDir.getAbsolutePath() + "/IMG_" + UUID.randomUUID().toString() + ".jpg";
+        if ("application/pdf".equals(mimeType)) {
+            filePath = extDir.getAbsolutePath() + "/" + UUID.randomUUID().toString() + ".pdf";
+        } else {
+            filePath = extDir.getAbsolutePath() + "/IMG_" + UUID.randomUUID().toString() + ".jpg";
+        }
         outStream = new BufferedOutputStream(new FileOutputStream
                 (filePath));
 
