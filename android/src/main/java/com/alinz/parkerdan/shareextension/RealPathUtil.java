@@ -169,8 +169,10 @@ public class RealPathUtil {
 }
 
  public static boolean isMailFile(Uri uri) {
-    return "com.google.android.gm.sapi".equals(uri.getAuthority());
+     return "com.google.android.gm.sapi".equals(uri.getAuthority())
+             || "com.samsung.android.email.attachmentprovider".equals(uri.getAuthority());
 }
+
  private static String copyFile(Context context, Uri uri) {
 
     String filePath;
