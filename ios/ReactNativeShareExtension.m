@@ -95,7 +95,7 @@ RCT_REMAP_METHOD(data,
                 NSURL *url = (NSURL *)item;
 
                 if(callback) {
-                    callback([url absoluteString], @"text/plain", nil);
+                    callback([url absoluteString], [[[url absoluteString] pathExtension] lowercaseString], nil);
                 }
             }];
         } else if (imageProvider) {
