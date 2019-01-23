@@ -175,7 +175,23 @@ public class RealPathUtil {
              || "com.samsung.android.email.attachmentprovider".equals(uri.getAuthority());
 }
 
- private static String copyFile(Context context, Uri uri) {
+private static String getFileName(ContentResolver contentResolver, Uri uri) {
+    String fileName = null;
+    String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+    Cursor metaCursor = contentResolver.query(uri, projection, null, null, null);
+    if (metaCursor != null) {
+        try {
+            if (metaCursor.moveToFirst()) {
+                fileName = metaCursor.getString(0);
+            }
+        } finally {
+            metaCursor.close();
+        }
+    }
+    return fileName;
+}
+
+private static String copyFile(Context context, Uri uri) {
 
     String filePath;
     InputStream inputStream = null;
@@ -186,10 +202,16 @@ public class RealPathUtil {
         inputStream = context.getContentResolver().openInputStream(uri);
 
         File extDir = context.getExternalFilesDir(null);
-        if ("application/pdf".equals(mimeType)) {
-            filePath = extDir.getAbsolutePath() + "/" + UUID.randomUUID().toString() + ".pdf";
+
+        String fileName = getFileName(context.getContentResolver(), uri);
+        if (null != fileName) {
+            filePath = extDir.getAbsolutePath() + "/" + fileName;
         } else {
-            filePath = extDir.getAbsolutePath() + "/IMG_" + UUID.randomUUID().toString() + ".jpg";
+            if ("application/pdf".equals(mimeType)) {
+                filePath = extDir.getAbsolutePath() + "/" + UUID.randomUUID().toString() + ".pdf";
+            } else {
+                filePath = extDir.getAbsolutePath() + "/IMG_" + UUID.randomUUID().toString() + ".jpg";
+            }
         }
         outStream = new BufferedOutputStream(new FileOutputStream
                 (filePath));
@@ -221,6 +243,6 @@ public class RealPathUtil {
     }
 
     return filePath;
- }
+}
 
 }
