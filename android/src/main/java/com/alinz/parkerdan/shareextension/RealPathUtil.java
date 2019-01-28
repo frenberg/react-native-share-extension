@@ -175,10 +175,10 @@ public class RealPathUtil {
              || "com.samsung.android.email.attachmentprovider".equals(uri.getAuthority());
 }
 
-private static String getFileName(ContentResolver contentResolver, Uri uri) {
+private static String getFileName(Context context, Uri uri) {
     String fileName = null;
     String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
-    Cursor metaCursor = contentResolver.query(uri, projection, null, null, null);
+    Cursor metaCursor = context.getContextResolver().query(uri, projection, null, null, null);
     if (metaCursor != null) {
         try {
             if (metaCursor.moveToFirst()) {
@@ -203,7 +203,7 @@ private static String copyFile(Context context, Uri uri) {
 
         File extDir = context.getExternalFilesDir(null);
 
-        String fileName = getFileName(context.getContentResolver(), uri);
+        String fileName = getFileName(context, uri);
         if (null != fileName) {
             filePath = extDir.getAbsolutePath() + "/" + fileName;
         } else {
