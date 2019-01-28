@@ -178,7 +178,7 @@ public class RealPathUtil {
 private static String getFileName(Context context, Uri uri) {
     String fileName = null;
     String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
-    Cursor metaCursor = context.getContextResolver().query(uri, projection, null, null, null);
+    Cursor metaCursor = context.getContentResolver().query(uri, projection, null, null, null);
     if (metaCursor != null) {
         try {
             if (metaCursor.moveToFirst()) {
