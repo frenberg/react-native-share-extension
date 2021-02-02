@@ -1,6 +1,6 @@
 {
   "name": "react-native-share-extension",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "share extension using react-native for both ios and android",
   "main": "lib/index.js",
   "scripts": {
@@ -24,9 +24,5 @@
   "bugs": {
     "url": "https://github.com/alinz/react-native-share-extension"
   },
-  "homepage": "https://github.com/alinz/react-native-share-extension",
-  "devDependencies": {
-    "react": "^16.12.0",
-    "react-native": "^0.61.5"
-  }
+  "homepage": "https://github.com/alinz/react-native-share-extension"
 }
