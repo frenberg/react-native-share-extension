@@ -12,8 +12,9 @@ Pod::Spec.new do |s|
   s.homepage     = package['homepage']
   s.platform     = :ios, "9.0"
 
-  s.source       = { :git => "https://github.com/MattiasMansson/react-native-share-extension", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/frenberg/react-native-share-extension", :tag => "v#{s.version}" }
   s.source_files  = "ios/**/*.{h,m}"
 
   s.dependency 'React'
 end
+
